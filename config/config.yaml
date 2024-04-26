@@ -5,3 +5,9 @@ data_ingestion:
   root_dir: artifacts/data_ingestion
   local_data_file: E:/Code/Data/Potato-dieses.zip
   unzip_dir: artifacts/data_ingestion
+
+
+prepare_base_model:
+  root_dir: artifacts/prepare_base_model
+  base_model_path: artifacts/prepare_base_model/base_model.h5
+  update_base_model_path: artifacts/prepare_base_model/base_model_update.h5
