@@ -1,0 +1,117 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src\Classification\pipeline\stage_01_data_ingestion.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: d4aaaaf84cccea1a42fc4e2b3286425b
+      size: 709
+    - path: src\Classification\pipeline\stage_01_data_ingestion.py
+      hash: md5
+      md5: e05d0b43291a63d8edc83c784a960295
+      size: 867
+    outs:
+    - path: artifacts\data_ingestion\Potato-dieses
+      hash: md5
+      md5: 7c0baebd1a4c4d66cad44c65a629dd1d.dir
+      size: 39441201
+      nfiles: 2152
+  prepare_base_model:
+    cmd: python src\Classification\pipeline\stage_02_prepare_base_model.py
+    deps:
+    - path: config\config.yaml
+      hash: md5
+      md5: d4aaaaf84cccea1a42fc4e2b3286425b
+      size: 709
+    - path: src\Classification\pipeline\stage_02_prepare_base_model.py
+      hash: md5
+      md5: dbd60e223bf4b695c319b875566fadad
+      size: 955
+    params:
+      params.yaml:
+        CLASSES: 3
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+        INCLUDE_TOP: false
+        LEARNING_RATE: 0.01
+        WEIGHTS: imagenet
+    outs:
+    - path: artifacts\prepare_base_model
+      hash: md5
+      md5: 360d980c25ca8e6839a89bfb19c31c3a.dir
+      size: 118168312
+      nfiles: 2
+  training:
+    cmd: python src\Classification\pipeline\stage_03_training.py
+    deps:
+    - path: artifacts\data_ingestion\Potato-dieses
+      hash: md5
+      md5: 7c0baebd1a4c4d66cad44c65a629dd1d.dir
+      size: 39441201
+      nfiles: 2152
+    - path: artifacts\prepare_base_model
+      hash: md5
+      md5: 360d980c25ca8e6839a89bfb19c31c3a.dir
+      size: 118168312
+      nfiles: 2
+    - path: config\config.yaml
+      hash: md5
+      md5: d4aaaaf84cccea1a42fc4e2b3286425b
+      size: 709
+    - path: src\Classification\components\prepare_callbacks.py
+      hash: md5
+      md5: 2e3c4b85c91a4c3b8b4717df4f251d11
+      size: 941
+    - path: src\Classification\pipeline\stage_03_training.py
+      hash: md5
+      md5: 1d103e75e3c1ed9a076a8b94696317c3
+      size: 1236
+    params:
+      params.yaml:
+        AUGMENTATION: true
+        BATCH_SIZE: 16
+        EPOCHS: 50
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: artifacts\training\model.keras
+      hash: md5
+      md5: 6b48e0760346e3c2b26ef448364a854f
+      size: 59836710
+  evaluation:
+    cmd: python src\Classification\pipeline\stage_04_evaluation.py
+    deps:
+    - path: artifacts\data_ingestion\Potato-dieses
+      hash: md5
+      md5: 7c0baebd1a4c4d66cad44c65a629dd1d.dir
+      size: 39441201
+      nfiles: 2152
+    - path: artifacts\training\model.keras
+      hash: md5
+      md5: 6b48e0760346e3c2b26ef448364a854f
+      size: 59836710
+    - path: config\config.yaml
+      hash: md5
+      md5: d4aaaaf84cccea1a42fc4e2b3286425b
+      size: 709
+    - path: src\Classification\pipeline\stage_04_evaluation.py
+      hash: md5
+      md5: 695d3a8614057bf57150db5bb24e7a93
+      size: 844
+    params:
+      params.yaml:
+        BATCH_SIZE: 16
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: scores.json
+      hash: md5
+      md5: 58461df41ba601b197db4e63f886ad63
+      size: 73
