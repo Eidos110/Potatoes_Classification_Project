@@ -35,7 +35,7 @@ A deep learning project focused on classifying different types of potatoes using
 
 - Experiment with advanced models like ResNet.
 - Expand the dataset to include more potato types.
-- Deploy using a web service (e.g., Flask) for live classification.
+- Improve the existing Flask deployment for live classification.
 
 ## Tools & Technologies
 
