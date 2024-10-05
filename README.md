@@ -25,6 +25,9 @@ A deep learning project focused on classifying different types of potatoes using
 3. **Run the DVC Pipeline**:
    ```sh
    dvc repro
+4. **Run the Flask Application**:
+   ```sh
+   python app.py
 
 ## Results
 
