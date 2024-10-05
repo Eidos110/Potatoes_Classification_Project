@@ -43,7 +43,7 @@ A deep learning project focused on classifying different types of potatoes using
 ## Tools & Technologies
 
 - **Languages**: Python
-- **Libraries**: TensorFlow, OpenCV, scikit-learn
+- **Libraries**: TensorFlow, OpenCV, scikit-learn, Flask
 - **Data Management**: DVC
 
 ## License
